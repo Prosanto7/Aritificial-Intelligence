@@ -143,7 +143,7 @@ public class MiniMax {
                 gameMove = gameMove * 2 + 1;
             } else {
                 System.out.println("Invalid Move!!!");
-                break;
+                return;
             }
 
             optimalMove = minimax(gameMove, turn, targetDepth, firstPlayerTurn, leaves);

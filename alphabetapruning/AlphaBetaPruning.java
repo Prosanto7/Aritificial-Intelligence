@@ -47,8 +47,8 @@ public class AlphaBetaPruning {
             best = Integer.MIN_VALUE;
             for (int i = 0; i < 2; i++) {
                 int value = alphaBetaPruning((currentNode * 2) + i, currentDepth + 1, targetDepth, false, leaves, alpha, beta);
-                best = getMax(new int[] {best, value});
-                alpha = getMax(new int[] {alpha, best});
+                best = getMax(new int[]{best, value});
+                alpha = getMax(new int[]{alpha, best});
 
                 if (beta <= alpha) {
                     break;
@@ -58,8 +58,8 @@ public class AlphaBetaPruning {
             best = Integer.MAX_VALUE;
             for (int i = 0; i < 2; i++) {
                 int value = alphaBetaPruning((currentNode * 2) + i, currentDepth + 1, targetDepth, true, leaves, alpha, beta);
-                best = getMin(new int[] {best, value});
-                beta = getMin(new int[] {beta, best});
+                best = getMin(new int[]{best, value});
+                beta = getMin(new int[]{beta, best});
 
                 if (beta <= alpha) {
                     break;
@@ -72,7 +72,7 @@ public class AlphaBetaPruning {
     public static void main(String[] args) {
         // Array of size 16 to
         // store leaf values
-        int[] leaves = new int[16];
+        int[] leaves = new int[64];
 
         // Array of size 2 to store moves
         int[] moves = new int[] {6, 4};
@@ -81,32 +81,32 @@ public class AlphaBetaPruning {
         // values in specific position
         int index = 0;
 
-        // Constructing leaf nodes
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
                 for (int k = 0; k < 2; k++) {
                     for (int l = 0; l < 2; l++) {
-                        int firstPlayer = moves[i] + moves[k];
-                        int secondPlayer = moves[j] + moves[l];
+                        for (int m = 0; m < 2; m++) {
+                            for (int n = 0; n < 2; n++) {
+                                int firstPlayer = moves[i] + moves[k] + moves[m];
+                                int secondPlayer = moves[j] + moves[l] + moves[n];
 
-                        if (firstPlayer > secondPlayer) {
-                            leaves[index] = 1;
-                        } else if (firstPlayer < secondPlayer) {
-                            leaves[index] = -1;
-                        } else {
-                            leaves[index] = 0;
+                                if (firstPlayer > secondPlayer) {
+                                    leaves[index] = 1;
+                                } else if (firstPlayer < secondPlayer) {
+                                    leaves[index] = -1;
+                                } else {
+                                    leaves[index] = 0;
+                                }
+
+                                index++;
+                            }
                         }
-                        index++;
                     }
                 }
             }
+
         }
 
-        // Printing the leaves
-//        for (int i : leaves) {
-//            System.out.print( i + " ");
-//        }
-//        System.out.println();
 
         // Finding depth of tree
         int targetDepth = logBaseB(2, leaves.length);
@@ -139,7 +139,7 @@ public class AlphaBetaPruning {
 
         int turn = 2;
 
-        while (turn <= 4) {
+        while (turn <= 6) {
             boolean firstPlayerTurn;
 
             System.out.print("Enter ");
@@ -162,25 +162,25 @@ public class AlphaBetaPruning {
                 gameMove = gameMove * 2 + 1;
             } else {
                 System.out.println("Invalid Move!!!");
-                break;
+                return;
             }
 
-            optimalMove = alphaBetaPruning(gameMove, 1, targetDepth, false, leaves, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            optimalMove = alphaBetaPruning(gameMove, turn, targetDepth, firstPlayerTurn, leaves, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
             if (optimalMove == 0) {
-                if (turn == 4) {
+                if (turn == 6) {
                     System.out.println("Match drawn!!!");
                 } else {
                     System.out.println("You may draw!!!");
                 }
             } else if (optimalMove == 1) {
-                if (turn == 4) {
+                if (turn == 6) {
                     System.out.println("Ahaaa! You won!!!");
                 } else {
                     System.out.println("Congrats Buddy!!!! you have a chance of winning.");
                 }
             } else if (optimalMove == -1) {
-                if (turn == 4) {
+                if (turn == 6) {
                     System.out.println("Ohh! You lost!!!");
                 } else {
                     System.out.println("Sorry Man! you may loose.");

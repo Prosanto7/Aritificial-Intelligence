@@ -59,7 +59,7 @@ public class AlphaBetaPruningAlgorithm {
             System.out.println("File Not Found");
         }
 
-        int currentNode = 0, currentDepth = 0;
+        int currentNode = 14, currentDepth = 5;
         int targetDepth = logBaseB(2, leaves.size());
         boolean firstPlayerTurn = true;
         System.out.println("The Optimal Solution is : " + alphaBetaPruning(currentNode, currentDepth, targetDepth, firstPlayerTurn, leaves, minimum, maximum));
