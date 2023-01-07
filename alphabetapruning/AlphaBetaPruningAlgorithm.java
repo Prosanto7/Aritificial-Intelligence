@@ -14,29 +14,6 @@ public class AlphaBetaPruningAlgorithm {
         return (int) Math.ceil(Math.log(value) / Math.log(base));
     }
 
-    public static int getMin(int[] arr) {
-        int min = arr[0];
-
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] < min) {
-                min = arr[i];
-            }
-        }
-
-        return min;
-    }
-
-    public static int getMax(int[] arr) {
-        int max = arr[0];
-
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] > max) {
-                max = arr[i];
-            }
-        }
-
-        return max;
-    }
 
     public static int alphaBetaPruning(int currentNode, int currentDepth, int targetDepth, boolean playerTurn, List<Integer> leaves, int alpha, int beta) {
         if (currentDepth == targetDepth) {
@@ -48,8 +25,8 @@ public class AlphaBetaPruningAlgorithm {
             best = minimum;
             for (int i = 0; i < 2; i++) {
                 int value = alphaBetaPruning((currentNode * 2) + i, currentDepth + 1, targetDepth, false, leaves, alpha, beta);
-                best = getMax(new int[] {best, value});
-                alpha = getMax(new int[] {alpha, best});
+                best = Math.max(best, value);
+                alpha = Math.max(alpha, best);
 
                 if (beta <= alpha) {
                     break;
@@ -59,8 +36,8 @@ public class AlphaBetaPruningAlgorithm {
             best = maximum;
             for (int i = 0; i < 2; i++) {
                 int value = alphaBetaPruning((currentNode * 2) + i, currentDepth + 1, targetDepth, true, leaves, alpha, beta);
-                best = getMin(new int[] {best, value});
-                beta = getMin(new int[] {beta, best});
+                best = Math.min(best, value);
+                beta = Math.min(beta, best);
 
                 if (beta <= alpha) {
                     break;

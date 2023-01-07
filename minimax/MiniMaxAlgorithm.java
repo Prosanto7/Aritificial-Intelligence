@@ -11,41 +11,17 @@ public class MiniMaxAlgorithm {
         return (int) Math.ceil(Math.log(value) / Math.log(base));
     }
 
-    public static int getMin(int[] arr) {
-        int min = arr[0];
-
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] < min) {
-                min = arr[i];
-            }
-        }
-
-        return min;
-    }
-
-    public static int getMax(int[] arr) {
-        int max = arr[0];
-
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] > max) {
-                max = arr[i];
-            }
-        }
-
-        return max;
-    }
-
     public static int minimax(int currentNode, int currentDepth, int targetDepth, boolean playerTurn, List<Integer> leaves) {
         if (currentDepth == targetDepth) {
             return leaves.get(currentNode);
         }
 
         if (playerTurn) {
-            return getMax(new int[] {minimax(currentNode * 2, currentDepth + 1, targetDepth, false, leaves),
-                    minimax((currentNode * 2) + 1, currentDepth + 1, targetDepth, false, leaves)});
+            return Math.max(minimax(currentNode * 2, currentDepth + 1, targetDepth, false, leaves),
+                    minimax((currentNode * 2) + 1, currentDepth + 1, targetDepth, false, leaves));
         } else {
-            return getMin(new int[] {minimax(currentNode * 2, currentDepth + 1, targetDepth, true, leaves),
-                    minimax((currentNode * 2) + 1, currentDepth + 1, targetDepth, true, leaves)});
+            return Math.min(minimax(currentNode * 2, currentDepth + 1, targetDepth, true, leaves),
+                    minimax((currentNode * 2) + 1, currentDepth + 1, targetDepth, true, leaves));
         }
     }
 
